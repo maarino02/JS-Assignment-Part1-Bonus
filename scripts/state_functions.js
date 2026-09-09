@@ -38,6 +38,6 @@ function hasVisited(room) {
 function resetState() {
     gameState.currentRoom = "cell";
     gameState.inventory = [];
-    gameState.powerDisabled = false;
     gameState.visitedRooms = [];
+    gameState.flags = {};
 }

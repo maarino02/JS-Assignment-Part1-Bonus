@@ -1,13 +1,15 @@
 function moveTo(room) {
     visitRoom(room);
-    console.log(`You moved to: ${room}`);
+    console.log(`\n========================================`);
+    console.log(`LOCATION MOVED TO: ${room.toUpperCase()}`);
+    console.log(`========================================`);
 }
 
 function canEnter(room) {
-    if (room === "exit" && !hasItem("key")) {
+    if (room === "corridor" && !hasItem("wire")) {
+        console.log("The cell door is locked. You need a wire to short-circuit the electronic mechanism.");
         return false;
     }
-
     return true;
 }
 
@@ -16,7 +18,5 @@ function tryMoveTo(room) {
         moveTo(room);
         return true;
     }
-
-    console.log("You can't go there yet.");
     return false;
 }

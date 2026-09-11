@@ -5,6 +5,9 @@ function getChoice(message, validChoices) {
             return null; // Player clicked Cancel
         }
         input = input.trim().toLowerCase();
+        if (input === "quit") {
+           return "quit";
+        }
         if (validChoices.includes(input)) {
             return input;
         }

@@ -12,6 +12,7 @@ function showConsoleInstructions() {
         "   - Windows: Press F12 (or Ctrl + Shift + I), then click the 'Console' tab.\n" +
         "   - Mac: Press Cmd + Option + I, then click the 'Console' tab.\n" +
         "3. Keep the console visible alongside dialog popups for the best experience!\n\n" +
+        "4. Type 'quit' anytime to leave the game.\n\n" +
         "Click OK to begin your escape!"
     );
 
@@ -36,6 +37,7 @@ function processCell() {
 
     const action = getChoice(message, validChoices);
     if (action === null) return "cancel";
+    if (action === "quit") return "quit";
 
     if (action === "bed") {
         if (!hasItem("wire")) {
@@ -87,6 +89,7 @@ function processCorridor() {
 
     const action = getChoice(message, validChoices);
     if (action === null) return "cancel";
+    if (action === "quit") return "quit";
 
     if (action === "west") {
         tryMoveTo("cell");
@@ -140,6 +143,7 @@ function processMaintenance() {
 
     const action = getChoice(message, validChoices);
     if (action === null) return "cancel";
+    if (action === "quit") return "quit";
 
     if (action === "west") {
         tryMoveTo("corridor");
@@ -182,6 +186,7 @@ function processServer() {
 
     const action = getChoice(message, validChoices);
     if (action === null) return "cancel";
+    if (action === "quit") return "quit";
 
     if (action === "south") {
         tryMoveTo("corridor");
@@ -242,14 +247,23 @@ function game() {
                 gameStatus = processServer();
             }
         }
-
+        if (gameStatus === "quit") {
+            playAgain = false;
+            alert("You quit the game.");
+            console.log("[QUIT] Player quit the adventure.");
+            break;
+        }
         if (gameStatus === "cancel") {
             alert("Game cancelled. You gave up escaping the Evil AI!");
             console.log("[CANCEL] Game session ended by player.");
         }
 
-        // Offer replay using confirm()
-        playAgain = confirm("The adventure has ended! Would you like to play again?");
+        // Offer replay using confirm() edit: only if the game was not quit
+        if (gameStatus !== "quit") {
+            playAgain = confirm(
+                "The adventure has ended! Would you like to play again?"
+            );
+        }
     }
 
     alert("Thanks for playing 'Escape the Evil AI!' Goodbye!");
